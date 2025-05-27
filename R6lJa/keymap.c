@@ -19,6 +19,7 @@ enum custom_keycodes {
 
 
 
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
     RGB_TOG,        OSL(5),         KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, TO(4),          
@@ -43,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [3] = LAYOUT_voyager(
     KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                                          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_GRAVE,       KC_TILD,        KC_QUOTE,                                       KC_DQUO,        KC_ASTR,        KC_AMPR,        KC_PERC,        KC_HASH,        KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_LABK,        KC_RABK,        KC_GRAVE,       KC_TILD,        KC_QUOTE,                                       KC_DQUO,        KC_ASTR,        KC_AMPR,        KC_PERC,        KC_HASH,        KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_PIPE,        KC_SLASH,       KC_UNDS,        KC_MINUS,       KC_EQUAL,                                       KC_RPRN,        KC_LPRN,        KC_CIRC,        KC_DLR,         KC_COLN,        KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_BSLS,        KC_QUES,        KC_LBRC,        KC_RBRC,        KC_PLUS,                                        KC_RCBR,        KC_LCBR,        KC_EXLM,        KC_AT,          KC_TRANSPARENT, KC_TRANSPARENT, 
                                                     KC_TAB,         TO(0),                                          TO(0),          KC_TRANSPARENT
@@ -73,7 +74,7 @@ void keyboard_post_init_user(void) {
 }
 
 const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
-    [1] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,245,105}, {0,245,105} },
+    [1] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,245,105}, {0,245,105} },
 
     [2] = { {170,215,110}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {170,215,110}, {170,215,110}, {170,215,110}, {0,0,0}, {170,218,204}, {170,215,110}, {170,215,110}, {170,215,110}, {170,215,110}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {170,215,110}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {170,215,110}, {170,215,110}, {170,215,110}, {170,215,110}, {0,0,0}, {0,0,0}, {170,215,110}, {170,215,110}, {170,215,110}, {170,215,110}, {0,0,0}, {0,0,0}, {170,215,110}, {170,215,110}, {0,0,0}, {170,215,110}, {0,0,0}, {0,0,0}, {170,215,110}, {0,0,0} },
 
@@ -125,6 +126,7 @@ bool rgb_matrix_indicators_user(void) {
   }
   return true;
 }
+
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
