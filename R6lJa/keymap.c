@@ -1,10 +1,12 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
 #define MOON_LED_LEVEL LED_LEVEL
-#define ML_SAFE_RANGE SAFE_RANGE
+#ifndef ZSA_SAFE_RANGE
+#define ZSA_SAFE_RANGE SAFE_RANGE
+#endif
 
 enum custom_keycodes {
-  RGB_SLD = ML_SAFE_RANGE,
+  RGB_SLD = ZSA_SAFE_RANGE,
   HSV_0_245_105,
   HSV_170_218_204,
   HSV_139_216_206,
@@ -14,7 +16,6 @@ enum custom_keycodes {
   ST_MACRO_1,
   ST_MACRO_2,
   ST_MACRO_3,
-  ST_MACRO_4,
 };
 
 
@@ -30,9 +31,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [1] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_0,     ST_MACRO_1,     KC_TRANSPARENT,                                 ST_MACRO_4,     KC_1,           KC_2,           KC_3,           KC_EQUAL,       KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_0,     ST_MACRO_1,     KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_1,           KC_2,           KC_3,           KC_EQUAL,       KC_TRANSPARENT, 
     KC_TRANSPARENT, OSM(MOD_MEH),   OSM(MOD_LALT),  OSM(MOD_LGUI),  OSM(MOD_LCTL),  ST_MACRO_2,                                     OSM(MOD_MEH),   KC_4,           KC_5,           KC_6,           KC_0,           KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_3,                                     KC_TRANSPARENT, KC_7,           KC_8,           KC_9,           KC_MINUS,       KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_3,                                     KC_TRANSPARENT, KC_7,           KC_8,           KC_9,           KC_TRANSPARENT, KC_TRANSPARENT, 
                                                     KC_TRANSPARENT, TO(0),                                          OSL(2),         KC_ESCAPE
   ),
   [2] = LAYOUT_voyager(
@@ -67,6 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 
+
 extern rgb_config_t rgb_matrix_config;
 
 void keyboard_post_init_user(void) {
@@ -74,7 +76,7 @@ void keyboard_post_init_user(void) {
 }
 
 const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
-    [1] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,245,105}, {0,245,105} },
+    [1] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105}, {0,245,105}, {0,0,0}, {0,0,0}, {0,245,105}, {0,245,105} },
 
     [2] = { {170,215,110}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {170,215,110}, {170,215,110}, {170,215,110}, {0,0,0}, {170,218,204}, {170,215,110}, {170,215,110}, {170,215,110}, {170,215,110}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {170,215,110}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {170,215,110}, {170,215,110}, {170,215,110}, {170,215,110}, {0,0,0}, {0,0,0}, {170,215,110}, {170,215,110}, {170,215,110}, {170,215,110}, {0,0,0}, {0,0,0}, {170,215,110}, {170,215,110}, {0,0,0}, {170,215,110}, {0,0,0}, {0,0,0}, {170,215,110}, {0,0,0} },
 
@@ -147,12 +149,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     break;
     case ST_MACRO_3:
     if (record->event.pressed) {
-      SEND_STRING(SS_LCTL(SS_TAP(X_SPACE))SS_DELAY(100)  SS_TAP(X_LBRC)SS_DELAY(100)  SS_LSFT(SS_TAP(X_SLASH)));
-    }
-    break;
-    case ST_MACRO_4:
-    if (record->event.pressed) {
-      SEND_STRING(SS_TAP(X_SPACE)SS_DELAY(10)  SS_LSFT(SS_TAP(X_BSLS))SS_DELAY(10)  SS_TAP(X_SPACE)SS_DELAY(10)  SS_TAP(X_L)SS_DELAY(1)  SS_TAP(X_E)SS_DELAY(1)  SS_TAP(X_S)SS_DELAY(10)  SS_TAP(X_S)SS_DELAY(10)  SS_TAP(X_LEFT)SS_DELAY(10)  SS_TAP(X_LEFT)SS_DELAY(10)  SS_TAP(X_LEFT)SS_DELAY(10)  SS_TAP(X_LEFT)SS_DELAY(10)  SS_TAP(X_LEFT)SS_DELAY(10)  SS_TAP(X_LEFT)SS_DELAY(10)  SS_TAP(X_LEFT));
+      SEND_STRING(SS_LCTL(SS_TAP(X_SPACE))SS_DELAY(50)  SS_LSFT(SS_TAP(X_SLASH)));
     }
     break;
 
