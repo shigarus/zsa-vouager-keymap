@@ -66,10 +66,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
+  'L', 'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R', 'R', 
+  'L', 'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R', 'R', 
+  'L', 'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R', 'R', 
+  'L', 'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R', 'R', 
+  '*', '*', '*', '*'
+);
+
 
 
 
 extern rgb_config_t rgb_matrix_config;
+
+RGB hsv_to_rgb_with_value(HSV hsv) {
+  RGB rgb = hsv_to_rgb( hsv );
+  float f = (float)rgb_matrix_config.hsv.v / UINT8_MAX;
+  return (RGB){ f * rgb.r, f * rgb.g, f * rgb.b };
+}
 
 void keyboard_post_init_user(void) {
   rgb_matrix_enable();
@@ -96,9 +110,8 @@ void set_layer_color(int layer) {
     if (!hsv.h && !hsv.s && !hsv.v) {
         rgb_matrix_set_color( i, 0, 0, 0 );
     } else {
-        RGB rgb = hsv_to_rgb( hsv );
-        float f = (float)rgb_matrix_config.hsv.v / UINT8_MAX;
-        rgb_matrix_set_color( i, f * rgb.r, f * rgb.g, f * rgb.b );
+        RGB rgb = hsv_to_rgb_with_value(hsv);
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
     }
   }
 }
@@ -107,31 +120,55 @@ bool rgb_matrix_indicators_user(void) {
   if (rawhid_state.rgb_control) {
       return false;
   }
-  if (keyboard_config.disable_layer_led) { return false; }
-  switch (biton32(layer_state)) {
-    case 1:
-      set_layer_color(1);
-      break;
-    case 2:
-      set_layer_color(2);
-      break;
-    case 3:
-      set_layer_color(3);
-      break;
-    case 4:
-      set_layer_color(4);
-      break;
-   default:
-    if (rgb_matrix_get_flags() == LED_FLAG_NONE)
+  if (!keyboard_config.disable_layer_led) { 
+    switch (biton32(layer_state)) {
+      case 1:
+        set_layer_color(1);
+        break;
+      case 2:
+        set_layer_color(2);
+        break;
+      case 3:
+        set_layer_color(3);
+        break;
+      case 4:
+        set_layer_color(4);
+        break;
+     default:
+        if (rgb_matrix_get_flags() == LED_FLAG_NONE) {
+          rgb_matrix_set_color_all(0, 0, 0);
+        }
+    }
+  } else {
+    if (rgb_matrix_get_flags() == LED_FLAG_NONE) {
       rgb_matrix_set_color_all(0, 0, 0);
-    break;
+    }
   }
+
   return true;
 }
 
 
+
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+  case QK_MODS ... QK_MODS_MAX:
+    // Mouse and consumer keys (volume, media) with modifiers work inconsistently across operating systems,
+    // this makes sure that modifiers are always applied to the key that was pressed.
+    if (IS_MOUSE_KEYCODE(QK_MODS_GET_BASIC_KEYCODE(keycode)) || IS_CONSUMER_KEYCODE(QK_MODS_GET_BASIC_KEYCODE(keycode))) {
+      if (record->event.pressed) {
+        add_mods(QK_MODS_GET_MODS(keycode));
+        send_keyboard_report();
+        wait_ms(2);
+        register_code(QK_MODS_GET_BASIC_KEYCODE(keycode));
+        return false;
+      } else {
+        wait_ms(2);
+        del_mods(QK_MODS_GET_MODS(keycode));
+      }
+    }
+    break;
     case ST_MACRO_0:
     if (record->event.pressed) {
       SEND_STRING(SS_LCTL(SS_LGUI(SS_LSFT(SS_TAP(X_E)))));
